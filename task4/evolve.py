@@ -7,12 +7,11 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification
 import torch
 from google import genai
 
-# ================= CONFIG =================
 MODEL_PATH = "models/tier_c"
 BASE_MODEL = "distilbert-base-uncased"
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
-# Load API key from environment; fallback to placeholder
+# Load API key from environment
 API_KEY = os.getenv("GEMINI_API_KEY", "YOUR_GEMINI_API_KEY")
 DEMO_MODE = os.getenv("DEMO_MODE", "false").lower() == "true"
 
@@ -29,24 +28,21 @@ POP_SIZE = 10
 ELITE_SIZE = 3
 GENERATIONS = 7
 TARGET_SCORE = 0.90
-# =========================================
 
-# ---------- Load Detector ----------
-# tokenizer saved with base model; load tokenizer from base and weights from local output
+# Load detector
 tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
 detector = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
 detector.to(DEVICE)
 detector.eval()
 
-# ---------- Load Gemma ----------
 if not DEMO_MODE:
     client = genai.Client(api_key=API_KEY)
-    GEMINI_MODEL = "models/gemma-3-1b-it"  # Using Gemma (same as data generation)
+    GEMINI_MODEL = "models/gemma-3-1b-it"
 else:
     print("⚠️  Running in DEMO MODE (no Gemma API calls)")
     client = None
 
-# Pre-generated demo paragraphs for testing (to avoid quota limits)
+# Demo paragraphs (bypasses API quota)
 DEMO_PARAGRAPHS = [
     "The intricate structure of social hierarchies has long fascinated scholars across disciplines. In modern society, the stratification of individuals based on economic resources creates distinct barriers to mobility and opportunity. Those born into privileged circumstances often maintain their advantage through networks and institutional access. Meanwhile, those from disadvantaged backgrounds face systematic obstacles that compound across generations. Education, employment, and wealth accumulation remain profoundly unequal. Research consistently demonstrates that family background predicts life outcomes more strongly than individual merit.",
     "Inequality manifests across multiple dimensions of human experience. Economic disparity represents only one facet of a broader pattern affecting health, education, and social participation. Individuals with greater resources can access superior schools, healthcare, and professional networks. The cycle perpetuates itself as advantaged children inherit both tangible wealth and cultural capital. Disadvantaged communities struggle with underfunded institutions and limited opportunity networks. Breaking these patterns requires sustained effort and systemic change.",
@@ -55,7 +51,6 @@ DEMO_PARAGRAPHS = [
     "Class affects access to fundamental resources and opportunities. Healthcare disparities by income level directly impact life expectancy and quality of life. Educational funding varies dramatically by neighborhood wealth, creating unequal preparation for adulthood. Wealthier communities invest in their schools while poor districts struggle with inadequate budgets. Housing segregation concentrates disadvantage geographically. These interconnected inequalities compound across the lifespan.",
 ]
 
-# ---------- Fitness Function ----------
 def human_score(text):
     inputs = tokenizer(
         text, return_tensors="pt", truncation=True, max_length=512
@@ -68,7 +63,6 @@ def human_score(text):
     # assumes label 0 = Human
     return probs[0, 0].item()
 
-# ---------- Initial Population ----------
 def generate_initial_population(topic):
     if DEMO_MODE:
         # Use pre-generated demo paragraphs
@@ -88,7 +82,6 @@ def generate_initial_population(topic):
     paras = [p.strip() for p in r.text.split("\n\n") if len(p.split()) > 80]
     return paras[:POP_SIZE]
 
-# ---------- Mutation ----------
 def mutate(text):
     if DEMO_MODE:
         # Simple demo mutation: add a sentence variation
@@ -117,7 +110,6 @@ def mutate(text):
 
     return r.text.strip()
 
-# ---------- Evolution Loop ----------
 def evolve(topic):
     population = generate_initial_population(topic)
 

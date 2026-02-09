@@ -12,11 +12,7 @@ def clean_gutenberg_text(raw_text):
     """
     Removes Project Gutenberg headers, footers, and formatting artifacts.
     """
-    # Remove Project Gutenberg header/footer
-    # Header typically ends with "***"
-    # Footer typically starts with "***"
-    
-    # Remove leading header
+
     text = re.sub(
         r"^\*{3}.*?\*{3}",
         "",
@@ -35,11 +31,11 @@ def clean_gutenberg_text(raw_text):
     # Remove chapter headings
     text = re.sub(r"\n\s*(CHAPTER|Chapter|PART|Part)\s+[A-Z0-9IVX]+.*?\n", "\n", text)
     
-    # Remove extraneous whitespace and line breaks
-    text = re.sub(r"\n\s*\n+", "\n\n", text)  # Multiple newlines -> double newline
-    text = re.sub(r"[ \t]+", " ", text)  # Multiple spaces -> single space
+   
+    text = re.sub(r"\n\s*\n+", "\n\n", text)  
+    text = re.sub(r"[ \t]+", " ", text)  
     
-    # Remove any remaining page numbers or stray formatting
+    
     text = re.sub(r"\[Page \d+\]", "", text)
     text = re.sub(r"\[Illustration:.*?\]", "", text)
     
@@ -62,7 +58,7 @@ def main():
     """
     Main preprocessing pipeline.
     """
-    # Check if a raw .txt file exists from Gutenberg
+    
     raw_file = None
     for candidate in ["data/dickens_raw.txt", "data/dickens.txt"]:
         if os.path.exists(candidate):
@@ -75,14 +71,14 @@ def main():
         print("\nDownload from Project Gutenberg and save as: data/dickens_raw.txt")
         return
     
-    # Read raw text
+    
     print(f"Reading raw text from: {raw_file}")
     with open(raw_file, "r", encoding="utf-8") as f:
         raw_text = f.read()
     
     print(f"Raw text length: {len(raw_text)} characters")
     
-    # Clean the text
+   
     print("Cleaning text...")
     cleaned_text = clean_gutenberg_text(raw_text)
     
@@ -94,7 +90,7 @@ def main():
     
     print(f"Extracted {len(paragraphs)} paragraphs")
     
-    # Write cleaned text to file
+    
     os.makedirs("data/clean", exist_ok=True)
     output_file = "data/clean/dickens_clean.txt"
     
@@ -104,7 +100,7 @@ def main():
     print(f"\n✓ Cleaned text written to: {output_file}")
     print(f"✓ Ready for paragraph extraction with build_class1.py")
     
-    # Show sample
+    
     if paragraphs:
         print(f"\nSample paragraph (first 100 words):")
         sample = " ".join(paragraphs[0].split()[:100])
