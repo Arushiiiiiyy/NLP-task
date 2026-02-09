@@ -81,3 +81,7 @@ head -1 data/class1.jsonl | python -m json.tool
 - `generate_gemini.py` to create AI paragraphs (Class 2 & 3)
 - Task 1 feature extraction
 - Task 2 model training
+
+
+NOTE ------
+export GEMINI_API_KEY='enter_api_key'
