@@ -1,0 +1,7 @@
+pip install ebooklib beautifulsoup4
+
+pip install spacy textstat
+python -m spacy download en_core_web_sm
+
+cd babel_folder/task1
+python run_task1.py

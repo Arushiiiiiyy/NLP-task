@@ -1,0 +1,26 @@
+{
+  "Dickens": {
+    "topics": [
+      "Social Class and Status",
+      "London and Urban Life",
+      "Family and Relationships",
+      "Morality and Ethics",
+      "Wealth and Money",
+      "Love and Romance",
+      "Justice and Law"
+    ],
+    "author_name": "Dickens"
+  },
+  "Austen": {
+    "topics": [
+      "Family and Relationships",
+      "Love and Romance",
+      "Social Class and Status",
+      "London and Urban Life",
+      "Wealth and Money",
+      "Morality and Ethics",
+      "Education and Knowledge"
+    ],
+    "author_name": "Austen"
+  }
+}
