@@ -428,24 +428,11 @@ DEVICE = "cpu"  # Force CPU
 
 ---
 
-## Citation
 
-```bibtex
-@project{ghost_in_machine,
-  title={The Ghost in the Machine: Authorship Detection and Genetic Algorithms},
-  author={Your Name},
-  year={2026},
-  institution={Your Institution}
-}
-```
 
 ---
 
-## License
 
-MIT License — Free to use and modify for educational purposes.
-
----
 
 ## Questions?
 
@@ -457,5 +444,3 @@ Refer to:
 
 ---
 
-**Last Updated:** February 9, 2026  
-**Status:** All tasks operational ✅
