@@ -95,8 +95,9 @@ grep -A 2 "MIN_WORDS\|MAX_WORDS" utils/build_class1_multi_author.py
 ### Issue: Gemini API errors
 ```bash
 # Set your API key
-export GEMINI_API_KEY="enter_api_key"
+export GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
 ```
+
 
 ---
 

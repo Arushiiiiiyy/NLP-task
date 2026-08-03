@@ -84,4 +84,5 @@ head -1 data/class1.jsonl | python -m json.tool
 
 
 NOTE ------
-export GEMINI_API_KEY='enter_api_key'
+export GEMINI_API_KEY='YOUR_GEMINI_API_KEY'
+
